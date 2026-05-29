@@ -106,7 +106,7 @@ async function enviar(base64, nome, tipo){
     fotoMimeType: tipo
   };
 
-  await fetch("COLE_AQUI_URL_DO_POWER_AUTOMATE", {
+  await fetch("https://script.google.com/macros/s/AKfycbyBY97hQkioKjVzUxev1dcGIJm1FbXhPxpb4dR4K1z7KHeM8RaewWnXE4NAEYyappfgXg/exec", {
     method: "POST",
     headers: {
       "Content-Type":"application/json"
