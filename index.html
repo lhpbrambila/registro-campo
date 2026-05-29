@@ -173,11 +173,14 @@ async function enviar(base64, nome, tipo){
     fotoMimeType: tipo
   };
 
-  await fetch(API_URL,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json"},
-    body: JSON.stringify(dados)
-  });
+await fetch(API_URL,{
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(dados)
+});
 }
 
 </script>
