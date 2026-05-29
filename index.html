@@ -1,81 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro de Ponto</title>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<style>
-body {
-  font-family: Arial;
-  background: #f0f4f8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.container {
-  background: white;
-  width: 90%;
-  max-width: 500px;
-  padding: 20px;
-  border-radius: 10px;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-}
-</style>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f4f8; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+    .container { background: white; width: 100%; max-width: 550px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #dcdde1; overflow: hidden; }
+    .header { background-color: #2980b9; color: white; text-align: center; padding: 15px; font-size: 18px; font-weight: bold; }
+    .form-body { padding: 20px; }
+    .label { font-weight: 600; color: #2c3e50; margin-bottom: 8px; margin-top: 15px; display: block; font-size: 14px; }
+    select, input[type="number"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+
+    .photo-container { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-top: 20px; }
+    .photo-title { font-weight: 600; font-size: 15px; margin-bottom: 10px; display: flex; gap: 8px; }
+
+    .toggle-buttons { display: flex; gap: 10px; margin-top: 5px; }
+    .btn-toggle { flex: 1; padding: 12px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; font-weight: bold; display: flex; justify-content: center; gap: 5px; }
+    .btn-toggle.saida-active { background-color: #dc3545; color: white; }
+    .btn-toggle.entrada-active { background-color: #198754; color: white; }
+
+    .metrics-container { display:none; border:1px solid #ccc; border-radius:6px; padding:15px; margin-top:20px; background:#fafafa; }
+    .metrics-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; }
+
+    .btn-submit { width:100%; padding:14px; background:#2980b9; color:white; border:none; border-radius:4px; font-size:16px; margin-top:20px; }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
+  <div class="header">Registro de Ponto em Campo</div>
 
-<h2>Registro de Ponto em Campo</h2>
+  <div class="form-body">
+    <form id="pontoForm">
 
-<form id="pontoForm">
+      <label class="label">Analista Responsável</label>
+      <select id="analista" required>
+        <option value="" disabled selected>Selecione...</option>
+        <option value="Adryan Lucas">Adryan Lucas</option>
+        <option value="Lucas Marcati">Lucas Marcati</option>
+      </select>
 
-<label>Analista</label>
-<select id="analista" required>
-<option value="">Selecione</option>
-<option>Adryan Lucas</option>
-<option>Lucas Marcati</option>
-</select>
+      <label class="label">Unidade Escolar</label>
+      <select id="escola" required>
+        <option value="" disabled selected>Escolha...</option>
 
-<label>Escola</label>
-<input type="text" id="escola" required>
+        <option>EE ENZO BRUNO CARRAMASCHI PROF.</option>
+        <option>EE CARLOS ROSA DR.</option>
+        <option>EE ANTONIO SALES OLIVEIRA PROF.</option>
+        <option>EE ESMERALDA MILANO MARONI PROFª</option>
+        <option>EE GERACINA DE MENEZES SANCHES PROFª</option>
+        <option>EE HERMÍNIO CANTISANI PROF.</option>
+        <option>EE IZABEL DE ALMEIDA MARIN PROFª</option>
+        <option>EE LYDIA HELENA FRANDSEN STUHR PROFª</option>
+        <option>EE REGINA VALARINI VIEIRA PROFA</option>
+        <option>EE RICARDO PERUZZO PROF.</option>
+        <option>EE VICENTE FELÍCIO PRIMO</option>
+        <option>EE STÉLIO MACHADO LOUREIRO PROF.</option>
+        <option>EE TEREZINHA LOT ZIN – TELECO PROFª</option>
+        <option>EE OLÍVIA ÂNGELA FURLANI PROFª</option>
+        <option>EE AGOSTINHO GRIGOLETO</option>
+        <option>EE ÁLVARO ALVIM</option>
+        <option>EE OSWALDO JANUZZI PROF.</option>
+        <option>EE JOSÉ MARIA DOS REIS DOUTOR</option>
+        <option>EE ANTÔNIO KASSAWARA KATUTOK</option>
+        <option>EE MARIA M. CASTEIN CASTILHO PROFª</option>
+        <option>EE PIO ANTUNES DE FIGUEIREDO Dr.</option>
+        <option>EE CINELZIA LORENCI MARONI PROFª</option>
+        <option>EE OCTAVIANO CARDOSO</option>
 
-<label>Ação</label>
-<select id="acao">
-<option>Entrada</option>
-<option>Saída</option>
-</select>
+      </select>
 
-<label>Reparados</label>
-<input type="number" id="reparados" value="0">
+      <label class="label">O que você está fazendo?</label>
 
-<label>Chamados</label>
-<input type="number" id="chamados" value="0">
+      <div class="toggle-buttons">
+        <button type="button" id="btnEntrada" class="btn-toggle entrada-active">
+          <i class="fa-solid fa-plane-arrival"></i> ENTRADA
+        </button>
+        <button type="button" id="btnSaida" class="btn-toggle">
+          <i class="fa-solid fa-plane-departure"></i> SAÍDA
+        </button>
+      </div>
 
-<label>Baixas</label>
-<input type="number" id="baixas" value="0">
+      <div class="photo-container">
+        <div class="photo-title">
+          <i class="fa-solid fa-camera"></i> Registrar Foto
+        </div>
+        <input type="file" id="foto" accept="image/*">
+      </div>
 
-<label>Outros Serviços</label>
-<textarea id="outrosServicos"></textarea>
+      <div id="sectionMetricas" class="metrics-container">
 
-<label>Foto</label>
-<input type="file" id="foto">
+        <div class="metrics-grid">
+          <input type="number" id="reparados" value="0">
+          <input type="number" id="chamados" value="0">
+          <input type="number" id="baixas" value="0">
+        </div>
 
-<button type="submit">Enviar</button>
+        <textarea id="outrosServicos" rows="3"
+          style="width:100%;margin-top:15px;padding:10px;border:1px solid #ccc;border-radius:4px;"
+          placeholder="Outros serviços..."></textarea>
 
-</form>
+      </div>
 
+      <button type="submit" class="btn-submit">
+        Confirmar
+      </button>
+
+    </form>
+  </div>
 </div>
 
 <script>
 
-document.getElementById("pontoForm").addEventListener("submit", async function(e){
+const API_URL = "https://script.google.com/macros/s/AKfycbyBY97hQkioKjVzUxev1dcGIJm1FbXhPxpb4dR4K1z7KHeM8RaewWnXE4NAEYyappfgXg/exec";
+
+let acaoAtual = "Registrar Entrada";
+
+const btnEntrada = document.getElementById('btnEntrada');
+const btnSaida = document.getElementById('btnSaida');
+const sectionMetricas = document.getElementById('sectionMetricas');
+
+btnEntrada.onclick = () => {
+  acaoAtual = "Registrar Entrada";
+  btnEntrada.classList.add('entrada-active');
+  btnSaida.classList.remove('saida-active');
+  sectionMetricas.style.display = 'none';
+};
+
+btnSaida.onclick = () => {
+  acaoAtual = "Registrar Saída";
+  btnSaida.classList.add('saida-active');
+  btnEntrada.classList.remove('entrada-active');
+  sectionMetricas.style.display = 'block';
+};
+
+document.getElementById("pontoForm").onsubmit = async (e) =>{
   e.preventDefault();
 
   const file = document.getElementById("foto").files[0];
@@ -83,38 +146,38 @@ document.getElementById("pontoForm").addEventListener("submit", async function(e
   if(file){
     const reader = new FileReader();
     reader.onload = async function(e){
-      enviar(e.target.result.split(',')[1], file.name, file.type);
+      await enviar(e.target.result.split(',')[1], file.name, file.type);
     };
     reader.readAsDataURL(file);
   }else{
-    enviar(null,null,null);
+    await enviar(null,null,null);
   }
-});
+
+  alert("✅ Enviado com sucesso!");
+  document.getElementById("pontoForm").reset();
+  btnEntrada.click();
+};
 
 async function enviar(base64, nome, tipo){
 
   const dados = {
     analista: document.getElementById("analista").value,
     escola: document.getElementById("escola").value,
-    acao: document.getElementById("acao").value,
+    acao: acaoAtual,
     reparados: document.getElementById("reparados").value,
     chamados: document.getElementById("chamados").value,
     baixas: document.getElementById("baixas").value,
     outrosServicos: document.getElementById("outrosServicos").value,
-    fotoName: nome,
     fotoBase64: base64,
+    fotoName: nome,
     fotoMimeType: tipo
   };
 
-  await fetch("https://script.google.com/macros/s/AKfycbyBY97hQkioKjVzUxev1dcGIJm1FbXhPxpb4dR4K1z7KHeM8RaewWnXE4NAEYyappfgXg/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type":"application/json"
-    },
+  await fetch(API_URL,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json"},
     body: JSON.stringify(dados)
   });
-
-  alert("Enviado com sucesso!");
 }
 
 </script>
