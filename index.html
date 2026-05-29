@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Ponto</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Registro de Ponto em Campo</h2>
+
+<form id="pontoForm">
+
+<label>Analista</label>
+<select id="analista" required>
+<option value="">Selecione</option>
+<option>Adryan Lucas</option>
+<option>Lucas Marcati</option>
+</select>
+
+<label>Escola</label>
+<input type="text" id="escola" required>
+
+<label>Ação</label>
+<select id="acao">
+<option>Entrada</option>
+<option>Saída</option>
+</select>
+
+<label>Reparados</label>
+<input type="number" id="reparados" value="0">
+
+<label>Chamados</label>
+<input type="number" id="chamados" value="0">
+
+<label>Baixas</label>
+<input type="number" id="baixas" value="0">
+
+<label>Outros Serviços</label>
+<textarea id="outrosServicos"></textarea>
+
+<label>Foto</label>
+<input type="file" id="foto">
+
+<button type="submit">Enviar</button>
+
+</form>
+
+</div>
+
+<script>
+
+document.getElementById("pontoForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const file = document.getElementById("foto").files[0];
+
+  if(file){
+    const reader = new FileReader();
+    reader.onload = async function(e){
+      enviar(e.target.result.split(',')[1], file.name, file.type);
+    };
+    reader.readAsDataURL(file);
+  }else{
+    enviar(null,null,null);
+  }
+});
+
+async function enviar(base64, nome, tipo){
+
+  const dados = {
+    analista: document.getElementById("analista").value,
+    escola: document.getElementById("escola").value,
+    acao: document.getElementById("acao").value,
+    reparados: document.getElementById("reparados").value,
+    chamados: document.getElementById("chamados").value,
+    baixas: document.getElementById("baixas").value,
+    outrosServicos: document.getElementById("outrosServicos").value,
+    fotoName: nome,
+    fotoBase64: base64,
+    fotoMimeType: tipo
+  };
+
+  await fetch("COLE_AQUI_URL_DO_POWER_AUTOMATE", {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(dados)
+  });
+
+  alert("Enviado com sucesso!");
+}
+
+</script>
+
+</body>
+</html>
